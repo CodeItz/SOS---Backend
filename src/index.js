@@ -8,7 +8,6 @@ const port = process.env.PORT || 8080;
 const routes = require("./routes");
 const authDB = require("./config/authDatabase");
 
-
 mongoose.connect(`mongodb+srv://${authDB.user}:${authDB.password}@policego-51yhr.mongodb.net/test?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true
