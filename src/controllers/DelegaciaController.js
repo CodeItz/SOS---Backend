@@ -24,48 +24,52 @@ module.exports = {
     },
 
     async show(req, res) {
-        // const { id } = req.params; // Verificar se é melhor pegar este ID do Token
+        const { id } = req.params; // Verificar se é melhor pegar este ID do Token
 
-        // const user = await Usuario.findOne({ id });
+        const delegacia = await Delegacia.findOne({ id });
 
-        // if (user) {
-        //     return res.status(200).json(user);
-        // } else {
-        //     return res.status(200).json({ message: 'User not found' });
-        // }
+        if (delegacia) {
+            return res.status(200).json(delegacia);
+        } else {
+            return res.status(200).json({ message: 'Police Station not found' });
+        }
     },
 
     async update(req, res) {
-        // const { id, name, email, password } = req.body; // Verificar se é melhor pegar este ID do Token
-        // let user = await Usuario.findOne({ id });
+        const { id, name, email, password, latitude, longitude } = req.body; // Verificar se é melhor pegar este ID do Token
 
-        // if (user) {
-        //     await user.updateOne({ id, name, email, password });
-        //     const { cpf, active } = user;
-        //     return res.status(200).json({
-        //         id,
-        //         name,
-        //         email,
-        //         password,
-        //         cpf,
-        //         active
-        //     });
-        // } else {
-        //     return res.status(200).json({});
-        // }
+        const location = {
+            type: 'Point',
+            coordinates: [longitude, latitude]
+        }
+
+        let delegacia = await Delegacia.findOne({ id });
+
+        if (delegacia) {
+            await delegacia.updateOne({ id, name, email, password, location});
+            return res.status(200).json({
+                id,
+                name,
+                email,
+                password,
+                location
+            });
+        } else {
+            return res.status(200).json({ message: 'Delegacia not found' });
+        }
 
     },
 
     async destroy(req, res) {
-        // const { id } = req.params; // Verificar se é melhor pegar este ID do Token
+        const { id } = req.params; // Verificar se é melhor pegar este ID do Token
 
-        // let user = await Usuario.findOne({ id });
+        let delegacia = await Delegacia.findOne({ id });
 
-        // if (user) {
-        //     user = await user.updateOne({ $set: { active: false } });
-        //     return res.status(200).json({ message: 'User deleted' });
-        // } else {
-        //     return res.status(200).json({ message: 'User not found' });
-        // }
+        if (delegacia) {
+            delegacia = await delegacia.updateOne({ $set: { active: false } });
+            return res.status(200).json({ message: 'Delegacia deleted' });
+        } else {
+            return res.status(200).json({ message: 'Delegacia not found' });
+        }
     }
 }

@@ -17,5 +17,8 @@ routes.delete("/users/delete/:id", UsuarioController.destroy);
 
 routes.post("/policestation/create", DelegaciaController.store);
 routes.get("/policestation", DelegaciaController.index);
+routes.get("/policestation/:id", DelegaciaController.show);
+routes.put("/policestation/update", DelegaciaController.update);
+routes.delete("/policestation/delete/:id", DelegaciaController.destroy);
 
 module.exports = routes;
