@@ -36,13 +36,14 @@ module.exports = {
 
         if (user) {
             await user.updateOne({ id, name, email, password });
-            const { cpf } = user;
+            const { cpf, active } = user;
             return res.status(200).json({
                 id,
                 name,
                 email,
                 password,
-                cpf
+                cpf,
+                active
             });
         } else {
             return res.status(200).json({});

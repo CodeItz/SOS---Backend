@@ -3,7 +3,7 @@ const PointSchema = require("../utils/PointSchema");
 
 const Delegacia = moongose.Schema({
     id:Number,
-    name:Number,
+    name:String,
     email:String,
     password:String,
     location:{
