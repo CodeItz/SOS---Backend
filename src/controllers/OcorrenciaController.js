@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const Ocorrencia = require("../models/Ocorrencia");
+const NotificacaoController = require("../controllers/NotificacaoController");
 
 module.exports = {
     async index(req, res) {
@@ -34,6 +35,7 @@ module.exports = {
             dateTimeLastUpdate
         });
 
+        await NotificacaoController.store(ocorrencia);
         return res.status(200).json(ocorrencia);
     },
 
@@ -57,7 +59,7 @@ module.exports = {
 
         if (ocorrencia) {
             const { id_user, id_delegacia, tipo, location, dateTimeStart, description } = ocorrencia;
-            await ocorrencia.updateOne({status, dateTimeLastUpdate });
+            await ocorrencia.updateOne({ status, dateTimeLastUpdate });
             return res.status(200).json({
                 id,
                 id_user,

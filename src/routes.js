@@ -4,6 +4,7 @@ const routes = Router();
 const UsuarioController = require("./controllers/UsuarioController");
 const DelegaciaController = require("./controllers/DelegaciaController");
 const OcorrenciaController = require("./controllers/OcorrenciaController");
+const NotificacaoController = require("./controllers/NotificacaoController");
 
 routes.get("/", (req, res) => {
     res.status(200).json({ message: "Its works" });
@@ -26,5 +27,8 @@ routes.get("/occurrence", OcorrenciaController.index);
 routes.get("/occurrence/:id", OcorrenciaController.show);
 routes.post("/occurrence/create", OcorrenciaController.store);
 routes.put("/occurrence/update", OcorrenciaController.update);
+
+routes.get("/notifications", NotificacaoController.index);
+routes.get("/notifications/:id", NotificacaoController.show);
 
 module.exports = routes;
