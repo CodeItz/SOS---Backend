@@ -1,13 +1,19 @@
 const mongoose = require("mongoose");
+const PointSchema = require("../utils/PointSchema");
 
 const Ocorrencia = mongoose.Schema({
     id: Number,
     id_user: Number,
     id_delegacia: Number,
+    description:String,
     tipo: String,
+    location:{
+        type:PointSchema,
+        index:'2dsphere'
+    },
     status: String,
-    dataHoraInicio: Date,
-    dataHoraUltimaAtualizacao: Date,
+    dateTimeStart: Date,
+    dateTimeLastUpdate: Date,
 });
 
 module.exports = mongoose.model('Ocorrencia', Ocorrencia);
