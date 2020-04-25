@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 
-const OcorrenciaValidation = require("../validations/OcorrenciaCreateValidation");
+const OcorrenciaCreate = require("../validations/OcorrenciaCreateValidation");
 const OcorrenciaUpdateValidation = require("../validations/OcorrenciaUpdateValidation");
 
 const Ocorrencia = require("../models/Ocorrencia");
@@ -14,7 +14,7 @@ module.exports = {
 
     async store(req, res) {
 
-        if(! (await OcorrenciaValidation.isValid(req.body))) {
+        if(! (await OcorrenciaCreate.isValid(req.body))) {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 

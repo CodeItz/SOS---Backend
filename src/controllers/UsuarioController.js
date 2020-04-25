@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const Yup = require("yup");
 const Usuario = require("../models/Usuario");
 
-const UserValidation = require("../validations/UsuarioCreateValidation");
+const UserCreate = require("../validations/UsuarioCreateValidation");
 const UserUpdate = require("../validations/UsuarioUpdateValidation");
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 
     async store(req, res) {
 
-        if(! (await UserValidation.isValid(req.body))) {
+        if(! (await UserCreate.isValid(req.body))) {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
