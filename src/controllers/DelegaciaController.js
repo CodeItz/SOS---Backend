@@ -50,7 +50,7 @@ module.exports = {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
-        const id = 0; // Buscar do token
+        const id = req.consumerId;
 
         const { name, email, password, latitude, longitude } = req.body; 
 
@@ -80,6 +80,10 @@ module.exports = {
         const { id } = req.params; // Verificar se é melhor pegar este ID do Token
 
         let delegacia = await Delegacia.findOne({ id });
+
+        if(! (req.consumerId == id)){
+            return res.status(400).json({Message: 'Operation not permitted'});
+        }
 
         if (delegacia) {
             delegacia = await delegacia.updateOne({ $set: { active: false } });

@@ -18,7 +18,7 @@ module.exports = {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
-        const id_user = 0;  // isso aqui deve ser extraído do token
+        const id_user = req.consumerId;  // isso aqui deve ser extraído do token
 
         const id = await Ocorrencia.countDocuments();
 
@@ -72,7 +72,12 @@ module.exports = {
         const { id, status } = req.body; 
 
         let ocorrencia = await Ocorrencia.findOne({ id });
+        let { id_delegacia } = ocorrencia; 
         let dateTimeLastUpdate = new Date();
+
+        if(! (req.consumerId == id_delegacia)){
+            return res.status(400).json({Message: 'Operation not permitted'});
+        }
 
         if (ocorrencia) {
             const { id_user, id_delegacia, tipo, location, dateTimeStart, description } = ocorrencia;

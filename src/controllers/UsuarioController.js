@@ -40,12 +40,12 @@ module.exports = {
     },
 
     async update(req, res) {
-
-        const id = 0; // Verificar se é melhor pegar este ID do Token
         
         if(! (await UserUpdate.isValid(req.body))) {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
+
+        const id = req.consumerId;
 
         const { name, email, password } = req.body; 
         let user = await Usuario.findOne({ id });
@@ -71,6 +71,10 @@ module.exports = {
         const { id } = req.params; // Verificar se é melhor pegar este ID do Token
 
         let user = await Usuario.findOne({ id });
+
+        if(! (req.consumerId == id)){
+            return res.status(400).json({Message: 'Operation not permitted'});
+        }
 
         if (user) {
             user = await user.updateOne({ $set: { active: false } });
