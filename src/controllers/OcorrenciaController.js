@@ -1,4 +1,8 @@
 const bcrypt = require("bcrypt");
+
+const OcorrenciaValidation = require("../validations/OcorrenciaCreateValidation");
+const OcorrenciaUpdateValidation = require("../validations/OcorrenciaUpdateValidation");
+
 const Ocorrencia = require("../models/Ocorrencia");
 const NotificacaoController = require("../controllers/NotificacaoController");
 
@@ -9,9 +13,17 @@ module.exports = {
     },
 
     async store(req, res) {
+
+        if(! (await OcorrenciaValidation.isValid(req.body))) {
+            return res.status(400).json({ error: 'Make sure your data is correct' });
+        }
+
+        const id_user = 0;  // isso aqui deve ser extraído do token
+
         const id = await Ocorrencia.countDocuments();
 
-        const { id_user, latitude, longitude, tipo, description } = req.body; // isso aqui deve ser extraído do token
+
+        const {latitude, longitude, tipo, description } = req.body; 
         const id_delegacia = 0; // isso aqui vai ser calculado
 
         const location = {
@@ -52,7 +64,12 @@ module.exports = {
     },
 
     async update(req, res) {
-        const { id, status } = req.body; // Verificar se é melhor pegar este ID do Token
+
+        if(! (await OcorrenciaUpdateValidation.isValid(req.body))) {
+            return res.status(400).json({ error: 'Make sure your data is correct' });
+        }
+
+        const { id, status } = req.body; 
 
         let ocorrencia = await Ocorrencia.findOne({ id });
         let dateTimeLastUpdate = new Date();
