@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const Yup = require("yup");
 const Usuario = require("../models/Usuario");
 
 const UserCreate = require("../validations/UsuarioCreateValidation");
@@ -21,8 +20,9 @@ module.exports = {
 
         const id = await Usuario.countDocuments();
         const active = true;
+        const passwordCrypt = await bcrypt.hash(password, 8);
 
-        const user = await Usuario.create({ id, name, email, password, cpf, active });
+        const user = await Usuario.create({ id, name, email, password: passwordCrypt, cpf, active });
 
         return res.status(200).json(user);
     },

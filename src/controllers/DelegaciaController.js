@@ -25,7 +25,9 @@ module.exports = {
         const id = await Delegacia.countDocuments();
         const active = true;
 
-        const delegacia = await Delegacia.create({ id, name, email, password, location, active });
+        const passwordCrypt = await bcrypt.hash(password, 8);
+
+        const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active });
 
         return res.status(200).json(delegacia);
     },
