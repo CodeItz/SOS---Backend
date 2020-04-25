@@ -11,7 +11,7 @@ const OcorrenciaController = require("./controllers/OcorrenciaController");
 const NotificacaoController = require("./controllers/NotificacaoController");
 
 routes.get("/", (req, res) => {
-    res.status(200).json({ message: "Its works the new Backend" });
+    res.status(200).json({ message: "Its works the new Backend 2" });
 });
 
 routes.post('/sessions/user', SessionUserController.store);
