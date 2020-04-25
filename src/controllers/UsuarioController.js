@@ -1,5 +1,9 @@
 const bcrypt = require("bcrypt");
+const Yup = require("yup");
 const Usuario = require("../models/Usuario");
+
+const UserValidation = require("../validations/UsuarioCreateValidation");
+const UserUpdate = require("../validations/UsuarioUpdateValidation");
 
 module.exports = {
     async index(req, res) {
@@ -8,6 +12,11 @@ module.exports = {
     },
 
     async store(req, res) {
+
+        if(! (await UserValidation.isValid(req.body))) {
+            return res.status(400).json({ error: 'Make sure your data is correct' });
+        }
+
         const { name, email, password, cpf } = req.body;
 
         const id = await Usuario.countDocuments();
@@ -31,7 +40,14 @@ module.exports = {
     },
 
     async update(req, res) {
-        const { id, name, email, password } = req.body; // Verificar se é melhor pegar este ID do Token
+
+        const id = 0; // Verificar se é melhor pegar este ID do Token
+        
+        if(! (await UserUpdate.isValid(req.body))) {
+            return res.status(400).json({ error: 'Make sure your data is correct' });
+        }
+
+        const { name, email, password } = req.body; 
         let user = await Usuario.findOne({ id });
 
         if (user) {
