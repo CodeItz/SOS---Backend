@@ -4,7 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo\"Error:not specificed\"&& exit 1"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
