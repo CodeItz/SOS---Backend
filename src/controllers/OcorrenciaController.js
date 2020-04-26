@@ -8,13 +8,16 @@ const NotificacaoController = require("../controllers/NotificacaoController");
 
 module.exports = {
     async index(req, res) {
-        const ocorrencias = await Ocorrencia.find();
+        const id_delegacia = req.consumerId;
+
+        const ocorrencias = await Ocorrencia.find({ id_delegacia });
+
         return res.status(200).json(ocorrencias);
     },
 
     async store(req, res) {
 
-        if(! (await OcorrenciaCreate.isValid(req.body))) {
+        if (!(await OcorrenciaCreate.isValid(req.body))) {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
@@ -23,7 +26,7 @@ module.exports = {
         const id = await Ocorrencia.countDocuments();
 
 
-        const {latitude, longitude, tipo, description } = req.body; 
+        const { latitude, longitude, tipo, description } = req.body;
         const id_delegacia = 0; // isso aqui vai ser calculado
 
         const location = {
@@ -65,18 +68,18 @@ module.exports = {
 
     async update(req, res) {
 
-        if(! (await OcorrenciaUpdateValidation.isValid(req.body))) {
+        if (!(await OcorrenciaUpdateValidation.isValid(req.body))) {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
-        const { id, status } = req.body; 
+        const { id, status } = req.body;
 
         let ocorrencia = await Ocorrencia.findOne({ id });
-        let { id_delegacia } = ocorrencia; 
+        let { id_delegacia } = ocorrencia;
         let dateTimeLastUpdate = new Date();
 
-        if(! (req.consumerId == id_delegacia)){
-            return res.status(400).json({Message: 'Operation not permitted'});
+        if (!(req.consumerId == id_delegacia)) {
+            return res.status(400).json({ Message: 'Operation not permitted' });
         }
 
         if (ocorrencia) {
