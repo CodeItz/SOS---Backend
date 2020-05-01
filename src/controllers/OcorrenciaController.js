@@ -6,6 +6,8 @@ const OcorrenciaUpdateValidation = require("../validations/OcorrenciaUpdateValid
 const Ocorrencia = require("../models/Ocorrencia");
 const NotificacaoController = require("../controllers/NotificacaoController");
 
+const calculatePoliceStationFromOcurrence = require("../utils/calculatePoliceStationFromOccurence");
+
 module.exports = {
     async index(req, res) {
         const id_delegacia = req.consumerId;
@@ -21,13 +23,12 @@ module.exports = {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
-        const id_user = req.consumerId;  // isso aqui deve ser extraído do token
+        const id_user = req.consumerId;
 
         const id = await Ocorrencia.countDocuments();
 
-
         const { latitude, longitude, tipo, description } = req.body;
-        const id_delegacia = 0; // isso aqui vai ser calculado
+        const id_delegacia = await calculatePoliceStationFromOcurrence(latitude, longitude); // isso aqui vai ser calculado
 
         const location = {
             type: 'Point',
