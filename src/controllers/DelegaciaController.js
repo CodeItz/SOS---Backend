@@ -1,7 +1,5 @@
 const bcrypt = require("bcrypt");
 const Delegacia = require("../models/Delegacia");
-const DelegaciaCreateValidation = require("../validations/DelegaciaCreateValidation");
-const DelegaciaUpdateValidation = require("../validations/DelegaciaUpdateValidation");
 
 module.exports = {
     async index(req, res) {
@@ -10,10 +8,6 @@ module.exports = {
     },
 
     async store(req, res) {
-
-        if(! (await DelegaciaCreateValidation.isValid(req.body))) {
-            return res.status(400).json({ error: 'Make sure your data is correct' });
-        }
 
         const { name, email, password, latitude, longitude } = req.body;
 
@@ -45,10 +39,6 @@ module.exports = {
     },
 
     async update(req, res) {
-
-        if(! (await DelegaciaUpdateValidation.isValid(req.body))) {
-            return res.status(400).json({ error: 'Make sure your data is correct' });
-        }
 
         const id = req.consumerId;
 

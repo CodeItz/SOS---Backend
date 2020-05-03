@@ -16,13 +16,13 @@ module.exports = {
             return res.status(400).json({ error: 'Make sure your data is correct' });
         }
 
-        const { name, email, password, cpf } = req.body;
+        const { name, email, password, cpf, birthday } = req.body;
 
         const id = await Usuario.countDocuments();
         const active = true;
         const passwordCrypt = await bcrypt.hash(password, 8);
 
-        const user = await Usuario.create({ id, name, email, password: passwordCrypt, cpf, active });
+        const user = await Usuario.create({ id, name, birthday, email, password: passwordCrypt, cpf, active });
 
         return res.status(200).json(user);
     },

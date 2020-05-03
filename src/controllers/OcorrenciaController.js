@@ -27,7 +27,7 @@ module.exports = {
 
         const id = await Ocorrencia.countDocuments();
 
-        const { latitude, longitude, tipo, description } = req.body;
+        const { latitude, longitude, tipo, description, isArmed, howManyCriminals } = req.body;
         const id_delegacia = await calculatePoliceStationFromOcurrence(latitude, longitude); // isso aqui vai ser calculado
 
         const location = {
@@ -44,6 +44,8 @@ module.exports = {
             id_user,
             id_delegacia,
             description,
+            isArmed,
+            howManyCriminals,
             tipo,
             location,
             status,
