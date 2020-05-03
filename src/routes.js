@@ -9,6 +9,7 @@ const UsuarioController = require("./controllers/UsuarioController");
 const DelegaciaController = require("./controllers/DelegaciaController");
 const OcorrenciaController = require("./controllers/OcorrenciaController");
 const NotificacaoController = require("./controllers/NotificacaoController");
+const ResetPasswordController = require("./controllers/ResetPasswordController");
 
 const sessionValidate = require("./validations/SessionCreateValidation");
 
@@ -30,6 +31,9 @@ routes.post('/sessions/policestation', sessionValidate, SessionControllerPoliceS
 
 routes.post("/users/create", validateCreateUser, UsuarioController.store);
 routes.post("/policestation/create", validationCreatePoliceStation, DelegaciaController.store);
+
+routes.post("/forgotPassword", ResetPasswordController.forgotPassword);
+routes.post("/resetPassword", ResetPasswordController.resetPassword);
 
 routes.use(auth);
 
