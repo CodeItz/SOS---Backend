@@ -2,6 +2,8 @@ const Delegacia = require("../models/Delegacia");
 
 module.exports = async function calculatePoliceStationFromOccurence(latitude, longitude) {
 
+    const POLICESTATION_STANDART = 0;
+
     try {
         const delegacia = await Delegacia.find({
             location: {
@@ -12,17 +14,22 @@ module.exports = async function calculatePoliceStationFromOccurence(latitude, lo
                     },
                     $maxDistance: 10000,
                 },
-            }
+            },
+            active: true
         });
 
-        const { id } = delegacia[0];
+        if (delegacia.length > 0) {
+            const { id } = delegacia[0];
+            return id;
+        }
 
-        return id;
+        throw "ERROR: No one PoliceStation near";
+     
     } catch (error) {
         console.error('Error');
         console.log(error);
 
-        return 0;
+        return POLICESTATION_STANDART;
     }
 
 }
