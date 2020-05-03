@@ -1,4 +1,3 @@
-const SessionValidation = require("../validations/SessionCreateValidation");
 const Usuario = require("../models/Usuario");
 const authJWT = require("../config/authJWTConfig");
 const ExpireIn = require("../config/expireInUser");
@@ -7,10 +6,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports = {
     async store(req, res) {
-
-        if (!(await SessionValidation.isValid(req.body))) {
-            return res.status(400).json({ error: 'validation fail, please info email and password' });
-        }
 
         const { email, password } = req.body;
 

@@ -1,9 +1,6 @@
 const bcrypt = require("bcrypt");
 const Usuario = require("../models/Usuario");
 
-const UserCreate = require("../validations/UsuarioCreateValidation");
-const UserUpdate = require("../validations/UsuarioUpdateValidation");
-
 module.exports = {
     async index(req, res) {
         const users = await Usuario.find();
@@ -11,10 +8,6 @@ module.exports = {
     },
 
     async store(req, res) {
-
-        if(! (await UserCreate.isValid(req.body))) {
-            return res.status(400).json({ error: 'Make sure your data is correct' });
-        }
 
         const { name, email, password, cpf, birthday } = req.body;
 
@@ -40,10 +33,6 @@ module.exports = {
     },
 
     async update(req, res) {
-        
-        if(! (await UserUpdate.isValid(req.body))) {
-            return res.status(400).json({ error: 'Make sure your data is correct' });
-        }
 
         const id = req.consumerId;
 
