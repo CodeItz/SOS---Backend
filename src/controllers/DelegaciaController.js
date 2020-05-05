@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const Delegacia = require("../models/Delegacia");
+const getId = require("../utils/calculateId");
 
 module.exports = {
     async index(req, res) {
@@ -16,7 +17,7 @@ module.exports = {
             coordinates: [longitude, latitude]
         }
 
-        const id = await Delegacia.countDocuments();
+        const id = await getId();
         const active = true;
 
         const passwordCrypt = await bcrypt.hash(password, 8);

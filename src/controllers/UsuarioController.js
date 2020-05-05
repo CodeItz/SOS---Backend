@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const Usuario = require("../models/Usuario");
+const getId = require("../utils/calculateId");
 
 module.exports = {
     async index(req, res) {
@@ -11,7 +12,7 @@ module.exports = {
 
         const { name, email, password, cpf, birthday } = req.body;
 
-        const id = await Usuario.countDocuments();
+        const id = await getId();
         const active = true;
         const passwordCrypt = await bcrypt.hash(password, 8);
 

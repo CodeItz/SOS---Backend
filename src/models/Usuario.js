@@ -29,5 +29,4 @@ const Usuario = moongose.Schema({
 });
 
 // Existem middlewares para mongo também, como depois de salvar, depois de atualizar e etc
-
 module.exports = moongose.model('Usuario', Usuario);
