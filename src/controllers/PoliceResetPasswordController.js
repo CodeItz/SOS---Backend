@@ -51,7 +51,7 @@ module.exports = {
 
             if (!delegacia) {
                 return res.status(400).json({
-                    message: 'User not found'
+                    message: 'PoliceStation not found'
                 })
             }
 

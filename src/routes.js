@@ -23,6 +23,9 @@ const validateUpdateOccurence = require("./validations/OcorrenciaUpdateValidatio
 const validateCreateUser = require("./validations/UsuarioCreateValidation");
 const validateUpdateUser = require("./validations/UsuarioUpdateValidation");
 
+const forgotPassword = require("./validations/ForgotPasswordValidation");
+const resetPassword = require("./validations/ResetPasswordValidation");
+
 routes.get("/", (req, res) => {
     res.status(200).json({ message: "Its works the new Backend 2" });
 });
@@ -33,11 +36,11 @@ routes.post('/sessions/policestation', sessionValidate, SessionControllerPoliceS
 routes.post("/users/create", validateCreateUser, UsuarioController.store);
 routes.post("/policestation/create", validationCreatePoliceStation, DelegaciaController.store);
 
-routes.post("/user/forgotPassword", UserResetPasswordController.forgotPassword);
-routes.post("/user/resetPassword", UserResetPasswordController.resetPassword);
+routes.post("/user/forgotPassword", forgotPassword, UserResetPasswordController.forgotPassword);
+routes.post("/user/resetPassword", resetPassword, UserResetPasswordController.resetPassword);
 
-routes.post("/policestation/forgotPassword", PoliceResetPasswordController.forgotPassword);
-routes.post("/policestation/resetPassword", PoliceResetPasswordController.resetPassword);
+routes.post("/policestation/forgotPassword", forgotPassword, PoliceResetPasswordController.forgotPassword);
+routes.post("/policestation/resetPassword", resetPassword, PoliceResetPasswordController.resetPassword);
 
 routes.use(auth);
 
