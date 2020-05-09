@@ -9,7 +9,8 @@ const UsuarioController = require("./controllers/UsuarioController");
 const DelegaciaController = require("./controllers/DelegaciaController");
 const OcorrenciaController = require("./controllers/OcorrenciaController");
 const NotificacaoController = require("./controllers/NotificacaoController");
-const ResetPasswordController = require("./controllers/ResetPasswordController");
+const UserResetPasswordController = require("./controllers/UserResetPasswordController");
+const PoliceResetPasswordController = require("./controllers/PoliceResetPasswordController");
 
 const sessionValidate = require("./validations/SessionCreateValidation");
 
@@ -32,8 +33,11 @@ routes.post('/sessions/policestation', sessionValidate, SessionControllerPoliceS
 routes.post("/users/create", validateCreateUser, UsuarioController.store);
 routes.post("/policestation/create", validationCreatePoliceStation, DelegaciaController.store);
 
-routes.post("/forgotPassword", ResetPasswordController.forgotPassword);
-routes.post("/resetPassword", ResetPasswordController.resetPassword);
+routes.post("/user/forgotPassword", UserResetPasswordController.forgotPassword);
+routes.post("/user/resetPassword", UserResetPasswordController.resetPassword);
+
+routes.post("/policestation/forgotPassword", PoliceResetPasswordController.forgotPassword);
+routes.post("/policestation/resetPassword", PoliceResetPasswordController.resetPassword);
 
 routes.use(auth);
 
