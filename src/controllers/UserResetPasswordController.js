@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const mailConfig = require("../config/mailConfig");
 const generatedToken = require("../utils/generatedToken");
+const configureTemplate = require("../utils/configureTemplate");
 const Usuario = require("../models/Usuario");
 const bcrypt = require("bcrypt");
 
@@ -25,12 +26,17 @@ module.exports = {
             });
 
             const transporter = nodemailer.createTransport(mailConfig);
+            configureTemplate(transporter);
 
             transporter.sendMail({
                 to: email,
                 from: mailConfig.auth.user,
                 subject: "Reset password",
-                text: `Hello! your token ${token} and your expires ${now.toLocaleString('pt-BR')}`
+                template: 'forgotPassword',
+                context: {
+                    name: usuario.name,
+                    token
+                }
             }, (error) => {
                 if (error) {
                     return res.status(400).json({ error: error.message });

@@ -3,6 +3,7 @@ const mailConfig = require("../config/mailConfig");
 const generatedToken = require("../utils/generatedToken");
 const Delegacia = require("../models/Delegacia");
 const bcrypt = require("bcrypt");
+const configureTemplate = require("../utils/configureTemplate");
 
 module.exports = {
     async forgotPassword(req, res) {
@@ -25,12 +26,17 @@ module.exports = {
             });
 
             const transporter = nodemailer.createTransport(mailConfig);
+            configureTemplate(transporter);
 
             transporter.sendMail({
                 to: email,
                 from: mailConfig.auth.user,
-                subject: "Reset password",
-                text: `Hello! your token ${token} and your expires ${now.toLocaleString('pt-BR')}`
+                subject: 'Reset password',
+                template: 'forgotPassword',
+                context: {
+                    name: delegacia.name,
+                    token
+                }
             }, (error) => {
                 if (error) {
                     return res.status(400).json({ error: error.message });
