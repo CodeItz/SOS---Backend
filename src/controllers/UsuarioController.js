@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Usuario = require("../models/Usuario");
 const getId = require("../utils/calculateId");
+const accountActive = require("../controllers/checkUserAccountController");
 
 module.exports = {
     async index(req, res) {
@@ -24,11 +25,18 @@ module.exports = {
 
         const id = await getId();
         const active = true;
+        const accountChecked = false;
         const passwordCrypt = await bcrypt.hash(password, 8);
 
-        const user = await Usuario.create({ id, name, birthday, email, password: passwordCrypt, cpf, active });
+        const user = await Usuario.create({ id, name, birthday, email, password: passwordCrypt, cpf, active, accountChecked });
 
-        return res.status(200).json(user);
+        await accountActive.sendTokenCheckAccount(user);
+
+        return res.status(200).json({
+            id,
+            name,
+            email
+        });
     },
 
     async show(req, res) {

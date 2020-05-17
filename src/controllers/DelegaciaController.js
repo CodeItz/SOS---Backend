@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const Delegacia = require("../models/Delegacia");
 const getId = require("../utils/calculateId");
+const accountActive = require("../controllers/checkPoliceStationAccountController");
 
 module.exports = {
     async index(req, res) {
@@ -30,10 +31,13 @@ module.exports = {
 
         const id = await getId();
         const active = true;
+        const accountChecked = false;
 
         const passwordCrypt = await bcrypt.hash(password, 8);
 
-        const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active });
+        const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active, accountChecked });
+
+        await accountActive.sendTokenCheckAccount(delegacia);
 
         return res.status(200).json(delegacia);
     },

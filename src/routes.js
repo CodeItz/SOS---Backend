@@ -23,11 +23,17 @@ const validateUpdateOccurence = require("./validations/OcorrenciaUpdateValidatio
 const validateCreateUser = require("./validations/UsuarioCreateValidation");
 const validateUpdateUser = require("./validations/UsuarioUpdateValidation");
 
+const validateCheckAccount = require("./validations/CheckAccountValidation");
+
 const forgotPassword = require("./validations/ForgotPasswordValidation");
 const resetPassword = require("./validations/ResetPasswordValidation");
 
+const checkUserAccountController = require("./controllers/checkUserAccountController");
+const checkPoliceAccountController = require("./controllers/checkPoliceStationAccountController");
+
+
 routes.get("/", (req, res) => {
-    res.status(200).json({ message: "Its works the new Backend 2" });
+    res.status(200).json({ message: "Its works the new Backend!" });
 });
 
 routes.post('/sessions/user', sessionValidate, SessionUserController.store);
@@ -41,6 +47,9 @@ routes.post("/user/resetPassword", resetPassword, UserResetPasswordController.re
 
 routes.post("/policestation/forgotPassword", forgotPassword, PoliceResetPasswordController.forgotPassword);
 routes.post("/policestation/resetPassword", resetPassword, PoliceResetPasswordController.resetPassword);
+
+routes.post("/activate/user", validateCheckAccount ,checkUserAccountController.verifyAccount);
+routes.post("/activate/police", validateCheckAccount ,checkPoliceAccountController.verifyAccount);
 
 routes.use(auth);
 
