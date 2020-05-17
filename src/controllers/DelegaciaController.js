@@ -39,7 +39,11 @@ module.exports = {
 
         await accountActive.sendTokenCheckAccount(delegacia);
 
-        return res.status(200).json(delegacia);
+        return res.status(200).json({
+            id,
+            name,
+            email
+        });
     },
 
     async show(req, res) {

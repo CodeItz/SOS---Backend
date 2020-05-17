@@ -9,7 +9,8 @@ module.exports = {
 
         const { email, password } = req.body;
 
-        const delegacia = await Delegacia.findOne({ email });
+        const delegacia = await Delegacia.findOne({ email })
+        .select('+accountChecked');
 
         if (!delegacia) {
             return res.status(401).json({ error: 'Police Station not found' });
@@ -17,6 +18,12 @@ module.exports = {
 
         if (!(await bcrypt.compare(password, delegacia.password))) {
             return res.status(401).json({ error: 'Password does not match' });
+        }
+
+        if(!(delegacia.accountChecked)){
+            return res.status(401).json({
+                error: 'Active your account'
+            })
         }
 
         const { id, name } = delegacia;

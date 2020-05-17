@@ -9,7 +9,8 @@ module.exports = {
 
         const { email, password } = req.body;
 
-        const usuario = await Usuario.findOne({ email });
+        const usuario = await Usuario.findOne({ email })
+        .select('+accountChecked');;
 
         if (!usuario) {
             return res.status(401).json({ error: 'User not found' });
@@ -17,6 +18,12 @@ module.exports = {
 
         if (!(await bcrypt.compare(password, usuario.password))) {
             return res.status(401).json({ error: 'Password does not match' });
+        }
+
+        if(!(usuario.accountChecked)){
+            return res.status(401).json({
+                error: 'Active your account'
+            })
         }
 
         const { id, name } = usuario;
