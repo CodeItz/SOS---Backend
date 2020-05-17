@@ -12,6 +12,17 @@ module.exports = {
 
         const { name, email, password, latitude, longitude } = req.body;
 
+
+        const emailExists = await Delegacia.findOne({
+            email
+        });
+
+        if(emailExists){
+            return res.status(401).json({
+                error: 'Delegacia already exists'
+            });
+        }
+
         const location = {
             type: 'Point',
             coordinates: [longitude, latitude]
@@ -44,6 +55,16 @@ module.exports = {
         const id = req.consumerId;
 
         const { name, email, password, latitude, longitude } = req.body; 
+
+        const emailExists = await Delegacia.findOne({
+            email
+        });
+
+        if(emailExists && emailExists.id != id){
+            return res.status(401).json({
+                error: 'Delegacia already exists'
+            });
+        }
 
         const location = {
             type: 'Point',

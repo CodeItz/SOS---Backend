@@ -12,6 +12,16 @@ module.exports = {
 
         const { name, email, password, cpf, birthday } = req.body;
 
+        const emailExists = await Usuario.findOne({
+            email
+        });
+
+        if(emailExists){
+            return res.status(401).json({
+                error: 'User already exists'
+            });
+        }
+
         const id = await getId();
         const active = true;
         const passwordCrypt = await bcrypt.hash(password, 8);
@@ -38,6 +48,17 @@ module.exports = {
         const id = req.consumerId;
 
         const { name, email, password } = req.body; 
+
+        const emailExists = await Usuario.findOne({
+            email
+        });
+
+        if(emailExists && emailExists.id != id){
+            return res.status(401).json({
+                error: 'User already exists'
+            });
+        }
+
         let user = await Usuario.findOne({ id });
 
         if (user) {
