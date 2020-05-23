@@ -22,9 +22,10 @@ module.exports = {
       }
     }, async (error) => {
       if (error) {
+        console.dir(error);
+
         throw "Houve um erro ao enviar email"
       }
-
 
       const usuario = await Usuario.findOne({
         email
