@@ -7,9 +7,19 @@ const calculatePoliceStationFromOcurrence = require("../utils/calculatePoliceSta
 
 module.exports = {
     async index(req, res) {
-        const id_delegacia = req.consumerId;
 
-        const ocorrencias = await Ocorrencia.find({ id_delegacia });
+        const { user, policestation } = req.query;
+        const id = req.consumerId;
+
+        let ocorrencias;
+
+        if (user) {
+            ocorrencias = await Ocorrencia.find({ id_user: id });
+        } else if (policestation) {
+            ocorrencias = await Ocorrencia.find({ id_delegacia: id });
+        } else {
+            ocorrencias = await Ocorrencia.find();
+        }
 
         return res.status(200).json(ocorrencias);
     },
