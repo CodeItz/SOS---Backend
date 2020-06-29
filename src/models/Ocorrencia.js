@@ -5,7 +5,7 @@ const Ocorrencia = mongoose.Schema({
     id: Number,
     id_user: Number,
     id_delegacia: Number,
-    isArmed: Boolean,
+    isArmed: String,
     howManyCriminals:String,
     description:String,
     tipo: String,
