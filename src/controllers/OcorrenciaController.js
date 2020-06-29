@@ -14,9 +14,11 @@ module.exports = {
         let ocorrencias;
 
         if (user) {
-            ocorrencias = await Ocorrencia.find({ id_user: id });
+            let id_user = id;
+            ocorrencias = await Ocorrencia.find({ id_user });
         } else if (policestation) {
-            ocorrencias = await Ocorrencia.find({ id_delegacia: id });
+            let id_delegacia = id;
+            ocorrencias = await Ocorrencia.find({ id_delegacia });
         } else {
             ocorrencias = await Ocorrencia.find();
         }
