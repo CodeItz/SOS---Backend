@@ -1,19 +1,30 @@
 const socketio = require("socket.io");
 let io;
-const connections = [];
+let connections = []; // verificar a possibilidade de utilizar um banco de dados aqui;
 
 exports.setupWebsocket = (server) => {
   io = socketio(server);
 
   io.on("connection", (socket) => {
-    console.log(socket.id);
+    
     const { id_delegacia } = socket.handshake.query;
+
+    console.log(socket.id);
+    console.log(id_delegacia);
+
+    
+    socket.emit('helcome', 'Bem vindo');
 
     connections.push({
       id: socket.id,
       id_delegacia: Number(id_delegacia),
     });
-  });
+
+    socket.on("disconnect", () => {
+      connections = connections.filter((elemento) => elemento.id != socket.id);
+    });
+
+  });  
 };
 
 exports.filterConnection = (id_delegacia) => {

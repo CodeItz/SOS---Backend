@@ -4,7 +4,7 @@ const Ocorrencia = require("../models/Ocorrencia");
 const NotificacaoController = require("../controllers/NotificacaoController");
 
 const calculatePoliceStationFromOcurrence = require("../utils/calculatePoliceStationFromOccurence");
-const { filterConnection, sendSocketMessageTo } = require("../websocket");
+const { filterConnection, sendMessage } = require("../websocket");
 
 module.exports = {
   async index(req, res) {
@@ -69,10 +69,13 @@ module.exports = {
 
     await NotificacaoController.store(ocorrencia);
 
-    const sendSocket = filterConnection(id_delegacia);
+    const sendSocket = filterConnection(id_delegacia);  
+
+    console.log('O socket escolhido: ' + sendSocket);
+    console.log(sendSocket);
 
     if (sendSocket) {
-        sendSocketMessageTo(sendSocket, 'newOcurrence', ocorrencia);
+        sendMessage(sendSocket, 'newOcurrence', ocorrencia);
     }
 
     return res.status(200).json(ocorrencia);
