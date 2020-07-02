@@ -1,8 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require("http");
+
+const { setupWebsocket } = require("./websocket");
 
 const app =  express();
+const server = http.Server(app);
+
+setupWebsocket(server);
+
 const port = process.env.PORT || 8080;
 
 const routes = require("./routes");
@@ -18,6 +25,6 @@ app.use(cors()); // permite acesso de outros endereços
 app.use(express.json());
 app.use(routes);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`O servidor está escutando na porta ${port}`);
 });
