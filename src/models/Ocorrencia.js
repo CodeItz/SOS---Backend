@@ -2,20 +2,34 @@ const mongoose = require("mongoose");
 const PointSchema = require("../utils/PointSchema");
 
 const Ocorrencia = mongoose.Schema({
-    id: Number,
-    id_user: Number,
-    id_delegacia: Number,
-    isArmed: String,
-    howManyCriminals:String,
-    description:String,
-    tipo: String,
-    location:{
-        type:PointSchema,
-        index:'2dsphere'
-    },
-    status: String,
-    dateTimeStart: Date,
-    dateTimeLastUpdate: Date,
+  id: Number,
+  id_user: Number,
+  id_delegacia: Number,
+  isArmed: {
+    type: String,
+    default: "Não preenchido",
+  },
+  howManyCriminals: {
+    type: String,
+    default: "Não preenchido",
+  },
+  description: {
+    type: String,
+    default: "Não preenchido",
+  },
+  tipo: {
+    type: String,
+    default: "Não preenchido",
+  },
+  location: {
+    type: PointSchema,
+    index: "2dsphere",
+  },
+  status: {
+    type: String,
+  },
+  dateTimeStart: Date,
+  dateTimeLastUpdate: Date,
 });
 
-module.exports = mongoose.model('Ocorrencia', Ocorrencia);
+module.exports = mongoose.model("Ocorrencia", Ocorrencia);
