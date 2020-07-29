@@ -19,6 +19,17 @@ module.exports = {
     } else if (policestation) {
       let id_delegacia = id;
       ocorrencias = await Ocorrencia.find({ id_delegacia });
+
+      const quantidadeAssalto = await Ocorrencia.find({ tipo: 'assalto'});
+      const quantidadeSequestro = await Ocorrencia.find({ tipo: 'sequestro'});
+      const quantidadeViolencia = await Ocorrencia.find({ tipo: 'violencia'});
+  
+      res.setHeader('x-count-assalt', quantidadeAssalto.length);
+      res.setHeader('x-count-sequestro', quantidadeSequestro.length);
+      res.setHeader('x-count-violencia', quantidadeViolencia.length);
+
+      // console.log(quantidadeAssalto);
+
     } else {
       ocorrencias = await Ocorrencia.find();
     }
@@ -39,6 +50,7 @@ module.exports = {
       isArmed,
       howManyCriminals,
     } = req.body;
+
     const id_delegacia = await calculatePoliceStationFromOcurrence(
       latitude,
       longitude
@@ -75,7 +87,7 @@ module.exports = {
     console.log(sendSocket);
 
     if (sendSocket) {
-        sendMessage(sendSocket, 'newOcurrence', ocorrencia);
+      sendMessage(sendSocket, 'newOcurrence', ocorrencia);
     }
 
     return res.status(200).json(ocorrencia);
@@ -86,6 +98,7 @@ module.exports = {
 
     const ocorrencia = await Ocorrencia.findOne({ id });
 
+  
     if (ocorrencia) {
       return res.status(200).json(ocorrencia);
     } else {
