@@ -94,7 +94,7 @@ routes.post(
 );
 routes.post("/user/sendNewToken", newToken, NewToken.sendTokenCheckAccount);
 
-// routes.use(auth);
+routes.use(auth);
 
 routes.get("/users", UsuarioController.index);
 routes.get("/users/:id", UsuarioController.show);

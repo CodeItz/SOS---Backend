@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 
 const Ocorrencia = require("../models/Ocorrencia");
+const Categorias = require("../models/Categoria");
 const NotificacaoController = require("../controllers/NotificacaoController");
 
 const calculatePoliceStationFromOcurrence = require("../utils/calculatePoliceStationFromOccurence");
@@ -13,6 +14,8 @@ module.exports = {
 
     let ocorrencias;
 
+    console.log("UA");
+
     if (user) {
       let id_user = id;
       ocorrencias = await Ocorrencia.find({ id_user });
@@ -20,16 +23,18 @@ module.exports = {
       let id_delegacia = id;
       ocorrencias = await Ocorrencia.find({ id_delegacia });
 
-      const quantidadeAssalto = await Ocorrencia.find({ tipo: 'assalto'});
-      const quantidadeSequestro = await Ocorrencia.find({ tipo: 'sequestro'});
-      const quantidadeViolencia = await Ocorrencia.find({ tipo: 'violencia'});
-  
-      res.setHeader('x-count-assalt', quantidadeAssalto.length);
-      res.setHeader('x-count-sequestro', quantidadeSequestro.length);
-      res.setHeader('x-count-violencia', quantidadeViolencia.length);
+      const categorias = await Categorias.find();
+      const categoriasModificadas = categorias.map(
+        (element) => element.categoria
+      );
+
+      for (let index = 0; index < categoriasModificadas.length; index++) {
+        const categoria = categoriasModificadas[index];
+        const quantidade = await Ocorrencia.find({ tipo: categoria });
+        res.setHeader(`x-count-${categoria}`, quantidade.length);
+      }
 
       // console.log(quantidadeAssalto);
-
     } else {
       ocorrencias = await Ocorrencia.find();
     }
@@ -81,13 +86,13 @@ module.exports = {
 
     await NotificacaoController.store(ocorrencia);
 
-    const sendSocket = filterConnection(id_delegacia);  
+    const sendSocket = filterConnection(id_delegacia);
 
-    console.log('O socket escolhido: ' + sendSocket);
+    console.log("O socket escolhido: " + sendSocket);
     console.log(sendSocket);
 
     if (sendSocket) {
-      sendMessage(sendSocket, 'newOcurrence', ocorrencia);
+      sendMessage(sendSocket, "newOcurrence", ocorrencia);
     }
 
     return res.status(200).json(ocorrencia);
@@ -98,7 +103,6 @@ module.exports = {
 
     const ocorrencia = await Ocorrencia.findOne({ id });
 
-  
     if (ocorrencia) {
       return res.status(200).json(ocorrencia);
     } else {
