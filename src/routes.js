@@ -1,4 +1,4 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const routes = Router();
 
 const auth = require("./middlewares/auth");
@@ -11,6 +11,7 @@ const OcorrenciaController = require("./controllers/OcorrenciaController");
 const NotificacaoController = require("./controllers/NotificacaoController");
 const UserResetPasswordController = require("./controllers/UserResetPasswordController");
 const PoliceResetPasswordController = require("./controllers/PoliceResetPasswordController");
+const NewToken = require("./controllers/sendNewToken");
 
 const sessionValidate = require("./validations/SessionCreateValidation");
 
@@ -28,28 +29,68 @@ const validateCheckAccount = require("./validations/CheckAccountValidation");
 const forgotPassword = require("./validations/ForgotPasswordValidation");
 const resetPassword = require("./validations/ResetPasswordValidation");
 
+const newToken = require("./validations/NewToken");
+
 const checkUserAccountController = require("./controllers/checkUserAccountController");
 const checkPoliceAccountController = require("./controllers/checkPoliceStationAccountController");
 
-
 routes.get("/", (req, res) => {
-    res.status(200).json({ message: "Its works the new Backend!" });
+  res.status(200).json({ message: "Its works the new Backend!" });
 });
 
-routes.post('/sessions/user', sessionValidate, SessionUserController.store);
-routes.post('/sessions/policestation', sessionValidate, SessionControllerPoliceStation.store);
+routes.post("/sessions/user", sessionValidate, SessionUserController.store);
+routes.post(
+  "/sessions/policestation",
+  sessionValidate,
+  SessionControllerPoliceStation.store
+);
 
 routes.post("/users/create", validateCreateUser, UsuarioController.store);
-routes.post("/policestation/create", validationCreatePoliceStation, DelegaciaController.store);
+routes.post(
+  "/policestation/create",
+  validationCreatePoliceStation,
+  DelegaciaController.store
+);
 
-routes.post("/user/forgotPassword", forgotPassword, UserResetPasswordController.forgotPassword);
-routes.post("/user/resetPassword", resetPassword, UserResetPasswordController.resetPassword);
+routes.post(
+  "/user/forgotPassword",
+  forgotPassword,
+  UserResetPasswordController.forgotPassword
+);
+routes.post(
+  "/user/resetPassword",
+  resetPassword,
+  UserResetPasswordController.resetPassword
+);
 
-routes.post("/policestation/forgotPassword", forgotPassword, PoliceResetPasswordController.forgotPassword);
-routes.post("/policestation/resetPassword", resetPassword, PoliceResetPasswordController.resetPassword);
+routes.post(
+  "/policestation/forgotPassword",
+  forgotPassword,
+  PoliceResetPasswordController.forgotPassword
+);
+routes.post(
+  "/policestation/resetPassword",
+  resetPassword,
+  PoliceResetPasswordController.resetPassword
+);
 
-routes.post("/activate/user", validateCheckAccount ,checkUserAccountController.verifyAccount);
-routes.post("/activate/police", validateCheckAccount ,checkPoliceAccountController.verifyAccount);
+routes.post(
+  "/activate/user",
+  validateCheckAccount,
+  checkUserAccountController.verifyAccount
+);
+routes.post(
+  "/activate/police",
+  validateCheckAccount,
+  checkPoliceAccountController.verifyAccount
+);
+
+routes.post(
+  "/policestation/sendNewToken",
+  newToken,
+  NewToken.sendTokenCheckAccountPoliceStation
+);
+routes.post("/user/sendNewToken", newToken, NewToken.sendTokenCheckAccount);
 
 routes.use(auth);
 
@@ -60,13 +101,25 @@ routes.delete("/users/delete/:id", UsuarioController.destroy);
 
 routes.get("/policestation", DelegaciaController.index);
 routes.get("/policestation/:id", DelegaciaController.show);
-routes.put("/policestation/update", validationUpdatePoliceStation, DelegaciaController.update);
+routes.put(
+  "/policestation/update",
+  validationUpdatePoliceStation,
+  DelegaciaController.update
+);
 routes.delete("/policestation/delete/:id", DelegaciaController.destroy);
 
 routes.get("/occurrence", OcorrenciaController.index);
 routes.get("/occurrence/:id", OcorrenciaController.show);
-routes.post("/occurrence/create", validateCreateOccurence, OcorrenciaController.store);
-routes.put("/occurrence/update", validateUpdateOccurence, OcorrenciaController.update);
+routes.post(
+  "/occurrence/create",
+  validateCreateOccurence,
+  OcorrenciaController.store
+);
+routes.put(
+  "/occurrence/update",
+  validateUpdateOccurence,
+  OcorrenciaController.update
+);
 
 routes.get("/notifications", NotificacaoController.index);
 routes.get("/notifications/:id", NotificacaoController.show);
