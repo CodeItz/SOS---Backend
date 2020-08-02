@@ -12,6 +12,7 @@ const NotificacaoController = require("./controllers/NotificacaoController");
 const UserResetPasswordController = require("./controllers/UserResetPasswordController");
 const PoliceResetPasswordController = require("./controllers/PoliceResetPasswordController");
 const NewToken = require("./controllers/sendNewToken");
+const CategoriaController = require("./controllers/CategoriaController");
 
 const sessionValidate = require("./validations/SessionCreateValidation");
 
@@ -30,6 +31,7 @@ const forgotPassword = require("./validations/ForgotPasswordValidation");
 const resetPassword = require("./validations/ResetPasswordValidation");
 
 const newToken = require("./validations/NewToken");
+const categoria = require("./validations/CategoriaCreate");
 
 const checkUserAccountController = require("./controllers/checkUserAccountController");
 const checkPoliceAccountController = require("./controllers/checkPoliceStationAccountController");
@@ -92,7 +94,7 @@ routes.post(
 );
 routes.post("/user/sendNewToken", newToken, NewToken.sendTokenCheckAccount);
 
-routes.use(auth);
+// routes.use(auth);
 
 routes.get("/users", UsuarioController.index);
 routes.get("/users/:id", UsuarioController.show);
@@ -123,5 +125,8 @@ routes.put(
 
 routes.get("/notifications", NotificacaoController.index);
 routes.get("/notifications/:id", NotificacaoController.show);
+
+routes.get("/categoria", CategoriaController.index);
+routes.post("/categoria", categoria, CategoriaController.store);
 
 module.exports = routes;
