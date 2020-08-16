@@ -33,6 +33,10 @@ const Usuario = moongose.Schema({
     passwordResetExpiresIn: {
         type: Date,
         select: false
+    },
+    firstLogin: {
+        type: Boolean,
+        default:false,
     }
 });
 
