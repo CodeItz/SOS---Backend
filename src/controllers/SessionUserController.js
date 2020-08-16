@@ -24,11 +24,11 @@ module.exports = {
       });
     }
 
+    const { id, name, firstLogin } = usuario;
+
     await usuario.updateOne({
       firstLogin: false,
     });
-
-    const { id, name, firstLogin } = usuario;
 
     return res.json({
       usuario: {
