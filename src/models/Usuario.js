@@ -36,7 +36,7 @@ const Usuario = moongose.Schema({
     },
     firstLogin: {
         type: Boolean,
-        default:false,
+        default:true,
     }
 });
 

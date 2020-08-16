@@ -25,7 +25,7 @@ module.exports = {
     }
 
     await usuario.updateOne({
-      firstLogin: true,
+      firstLogin: false,
     });
 
     const { id, name, firstLogin } = usuario;
