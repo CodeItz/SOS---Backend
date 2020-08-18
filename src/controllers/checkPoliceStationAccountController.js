@@ -5,9 +5,8 @@ const mailConfig = require("../config/mailConfig");
 const Delegacia = require("../models/Delegacia");
 
 module.exports = {
-  async sendTokenCheckAccount({ name, email }) {
-    const { token } = generatedToken();
-
+  async sendTokenCheckAccount({ name, email, checkAccounToken: token }) {
+   
     const transporter = nodemailer.createTransport(mailConfig);
     configureTemplate(transporter);
 

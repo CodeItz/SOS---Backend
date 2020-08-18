@@ -30,12 +30,15 @@ module.exports = {
         }
 
         const id = await getId();
+        const { token } = generatedToken();
+        const checkAccounToken  = token;
         const active = true;
         const accountChecked = false;
 
         const passwordCrypt = await bcrypt.hash(password, 8);
 
-        const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active, accountChecked });
+
+        const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active, accountChecked, checkAccounToken });
 
         await accountActive.sendTokenCheckAccount(delegacia);
 
