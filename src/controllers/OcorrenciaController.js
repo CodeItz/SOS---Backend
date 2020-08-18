@@ -116,21 +116,17 @@ module.exports = {
     let ocorrencia = await Ocorrencia.findOne({ id });
 
     if (ocorrencia) {
-      let { id_delegacia } = ocorrencia;
+      let { id_delegacia, id_user } = ocorrencia;
       let dateTimeLastUpdate = new Date();
 
-      if (!(req.consumerId == id_delegacia)) {
+      if (!(req.consumerId == id_delegacia || req.consumerId == id_user)) {
         return res.status(400).json({ Message: "Operation not permitted" });
       }
 
-      const {
-        id_user,
-        tipo,
-        location,
-        dateTimeStart,
-        description,
-      } = ocorrencia;
+      const { tipo, location, dateTimeStart, description } = ocorrencia;
+
       await ocorrencia.updateOne({ status, dateTimeLastUpdate });
+
       return res.status(200).json({
         id,
         id_user,
