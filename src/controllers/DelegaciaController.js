@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Delegacia = require("../models/Delegacia");
 const getId = require("../utils/calculateId");
 const accountActive = require("../controllers/checkPoliceStationAccountController");
+const generatedToken = require("../utils/generatedToken");
 
 module.exports = {
     async index(req, res) {
@@ -39,6 +40,9 @@ module.exports = {
 
 
         const delegacia = await Delegacia.create({ id, name, email, password: passwordCrypt, location, active, accountChecked, checkAccounToken });
+
+        console.log("Delegacia");
+        console.dir(delegacia);
 
         await accountActive.sendTokenCheckAccount(delegacia);
 
