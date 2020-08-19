@@ -35,11 +35,6 @@ module.exports = {
       if (!delegacia) {
         throw "Delegacia não encontrado"
       }
-
-      await delegacia.updateOne({
-        checkAccounToken: token
-      });
-
     });
   },
 
