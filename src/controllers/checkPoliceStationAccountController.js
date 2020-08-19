@@ -36,7 +36,7 @@ module.exports = {
         throw "Delegacia não encontrado"
       }
 
-      await Delegacia.updateOne({
+      await delegacia.updateOne({
         checkAccounToken: token
       });
 
