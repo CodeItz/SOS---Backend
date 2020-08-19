@@ -1,9 +1,11 @@
-const Usuarios = require("../models/Usuario");
-const Delegacia = require("../models/Delegacia");
-const crypto = require("crypto");
+const Usuarios =  require("../models/Usuario");
+const Delegacia =  require("../models/Delegacia");
 
-module.exports = async function () {
-  const id = crypto.randomBytes(6).toString("hex");
+module.exports = async function(){
+    const countUser = await Usuarios.countDocuments();
+    const countPoliceStation = await Delegacia.countDocuments();
 
-  return id;
-};
+    const id = countUser + countPoliceStation + 1;
+
+    return id;
+}
