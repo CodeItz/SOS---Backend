@@ -9,6 +9,10 @@ const Ocorrencia = mongoose.Schema({
     type: Number,
     default: 0
   },
+  comment: {
+    type: String,
+    default: "Não enviado"
+  },
   isArmed: {
     type: String,
     default: "Não preenchido",

@@ -3,6 +3,7 @@ const Yup = require("yup");
 const schema = Yup.object().shape({
   id_ocorrencia: Yup.number().required(),
   avaliation: Yup.number().required(),
+  comment: Yup.string().required()
 });
 
 module.exports = async function (req, res, next) {
