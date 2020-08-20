@@ -5,6 +5,10 @@ const Ocorrencia = mongoose.Schema({
   id: Number,
   id_user: Number,
   id_delegacia: Number,
+  avaliation: {
+    type: Number,
+    default: 0
+  },
   isArmed: {
     type: String,
     default: "Não preenchido",

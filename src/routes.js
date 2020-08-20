@@ -14,6 +14,9 @@ const PoliceResetPasswordController = require("./controllers/PoliceResetPassword
 const NewToken = require("./controllers/sendNewToken");
 const CategoriaController = require("./controllers/CategoriaController");
 
+const AvaliacaoController = require("./controllers/AvaliacaoController");
+
+
 const sessionValidate = require("./validations/SessionCreateValidation");
 
 const validationCreatePoliceStation = require("./validations/DelegaciaCreateValidation");
@@ -24,6 +27,8 @@ const validateUpdateOccurence = require("./validations/OcorrenciaUpdateValidatio
 
 const validateCreateUser = require("./validations/UsuarioCreateValidation");
 const validateUpdateUser = require("./validations/UsuarioUpdateValidation");
+
+const validateCreateAvaliacao = require("./validations/AvaliacaoValidation");
 
 const validateCheckAccount = require("./validations/CheckAccountValidation");
 
@@ -128,5 +133,7 @@ routes.get("/notifications/:id", NotificacaoController.show);
 
 routes.get("/categoria", CategoriaController.index);
 routes.post("/categoria", categoria, CategoriaController.store);
+
+routes.post("/avaliation", validateCreateAvaliacao, AvaliacaoController.store);
 
 module.exports = routes;
