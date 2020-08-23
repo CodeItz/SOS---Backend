@@ -37,8 +37,6 @@ const Ocorrencia = mongoose.Schema(
     status: {
       type: String,
     },
-    dateTimeStart: Date,
-    dateTimeLastUpdate: Date,
   },
   {
     timestamps: true,

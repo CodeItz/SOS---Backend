@@ -67,8 +67,6 @@ module.exports = {
     };
 
     const status = "Em aberto";
-    const dateTimeStart = new Date();
-    const dateTimeLastUpdate = new Date();
 
     const ocorrencia = await Ocorrencia.create({
       id,
@@ -79,9 +77,7 @@ module.exports = {
       howManyCriminals,
       tipo,
       location,
-      status,
-      dateTimeStart,
-      dateTimeLastUpdate,
+      status
     });
 
     await NotificacaoController.store(ocorrencia);
@@ -117,15 +113,14 @@ module.exports = {
 
     if (ocorrencia) {
       let { id_delegacia, id_user } = ocorrencia;
-      let dateTimeLastUpdate = new Date();
 
       if (!(req.consumerId == id_delegacia || req.consumerId == id_user)) {
         return res.status(400).json({ Message: "Operation not permitted" });
       }
 
-      const { tipo, location, dateTimeStart, description } = ocorrencia;
+      const { tipo, location, description } = ocorrencia;
 
-      await ocorrencia.updateOne({ status, dateTimeLastUpdate });
+      await ocorrencia.updateOne({ status  });
 
       return res.status(200).json({
         id,
@@ -134,9 +129,7 @@ module.exports = {
         description,
         tipo,
         location,
-        status,
-        dateTimeStart,
-        dateTimeLastUpdate,
+        status
       });
     } else {
       return res.status(200).json({ message: "Occurrence not found" });
