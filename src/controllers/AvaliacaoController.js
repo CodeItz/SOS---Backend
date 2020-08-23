@@ -7,16 +7,17 @@ module.exports = {
 
     const id_user = req.consumerId;
 
-    const occurrence = await Ocorrencia.findOne({ id: id_ocorrencia, id_user, comment });
+    const occurrence = await Ocorrencia.findOne({ id: id_ocorrencia, id_user });
 
     if (!occurrence) {
-      res.json({
+      return res.json({
         error: "Ocorrencia não encontrada",
       });
     }
 
     await occurrence.updateOne({
       avaliation,
+      comment
     });
 
     return res.status(200).json({
