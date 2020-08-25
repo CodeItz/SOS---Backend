@@ -6,28 +6,30 @@ exports.setupWebsocket = (server) => {
   io = socketio(server);
 
   io.on("connection", (socket) => {
-    
     const { id_delegacia } = socket.handshake.query;
 
     console.log("Conectou mais um");
-    console.log(socket.id);
-    console.log(id_delegacia);
+    socket.emit("helcome", "Bem vindo");
 
-    socket.emit('helcome', 'Bem vindo');
+    const alreadyConnect = connections.find(
+      (elemento) => elemento.id_delegacia == id_delegacia
+    );
 
-    connections = connections.filter((elemento) => elemento.id_delegacia != id_delegacia);
-    
+    if (alreadyConnect) {
+      connections = connections.filter(
+        (elemento) => elemento.id != alreadyConnect.id
+      );
+    }
+
     connections.push({
       id: socket.id,
       id_delegacia: Number(id_delegacia),
     });
 
-
     socket.on("disconnect", () => {
       connections = connections.filter((elemento) => elemento.id != socket.id);
     });
-
-  });  
+  });
 };
 
 exports.filterConnection = (id_delegacia) => {
