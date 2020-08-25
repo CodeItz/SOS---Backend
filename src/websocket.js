@@ -9,16 +9,19 @@ exports.setupWebsocket = (server) => {
     
     const { id_delegacia } = socket.handshake.query;
 
+    console.log("Conectou mais um");
     console.log(socket.id);
     console.log(id_delegacia);
 
-    
     socket.emit('helcome', 'Bem vindo');
 
+    connections = connections.filter((elemento) => elemento.id_delegacia != id_delegacia);
+    
     connections.push({
       id: socket.id,
       id_delegacia: Number(id_delegacia),
     });
+
 
     socket.on("disconnect", () => {
       connections = connections.filter((elemento) => elemento.id != socket.id);
@@ -33,6 +36,8 @@ exports.filterConnection = (id_delegacia) => {
 
 exports.sendMessage = (to, message, data) => {
   const { id } = to;
+
+  console.log("Enviou para " + id);
 
   io.to(id).emit(message, data);
 };
