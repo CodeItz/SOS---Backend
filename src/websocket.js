@@ -11,16 +11,6 @@ exports.setupWebsocket = (server) => {
     console.log("Conectou mais um");
     socket.emit("helcome", "Bem vindo");
 
-    const alreadyConnect = connections.find(
-      (elemento) => elemento.id_delegacia == id_delegacia
-    );
-
-    if (alreadyConnect) {
-      connections = connections.filter(
-        (elemento) => elemento.id != alreadyConnect.id
-      );
-    }
-
     connections.push({
       id: socket.id,
       id_delegacia: Number(id_delegacia),
