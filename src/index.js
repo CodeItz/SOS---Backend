@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
+const helmet = require("helmet");
 
 const { setupWebsocket } = require("./websocket");
 
@@ -23,6 +24,7 @@ mongoose.connect(`mongodb+srv://${authDB.user}:${authDB.password}@policego-51yhr
 
 app.use(cors()); // permite acesso de outros endereços
 app.use(express.json());
+app.use(helmet()); // helmet configura e habilita proteção no headers
 app.use(routes);
 
 server.listen(port, () => {
