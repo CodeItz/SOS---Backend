@@ -67,7 +67,7 @@ routes.post(
   SessionControllerPoliceStation.store
 );
 
-routes.post("/users/create", bruteforce.prevent, validateCreateUser, UsuarioController.store);
+routes.post("/users/create", validateCreateUser, UsuarioController.store);
 routes.post(
   "/policestation/create",
   validationCreatePoliceStation,
@@ -76,79 +76,79 @@ routes.post(
 
 routes.post(
   "/user/forgotPassword",
-  bruteforce.prevent,
+
   forgotPassword,
   UserResetPasswordController.forgotPassword
 );
 routes.post(
   "/user/resetPassword",
-  bruteforce.prevent, 
+ 
   resetPassword,
   UserResetPasswordController.resetPassword
 );
 
 routes.post(
   "/policestation/forgotPassword",
-  bruteforce.prevent, 
+ 
   forgotPassword,
   PoliceResetPasswordController.forgotPassword
 );
 routes.post(
   "/policestation/resetPassword",
-  bruteforce.prevent, 
+ 
   resetPassword,
   PoliceResetPasswordController.resetPassword
 );
 
 routes.post(
   "/activate/user",
-  bruteforce.prevent, 
+ 
   validateCheckAccount,
   checkUserAccountController.verifyAccount
 );
 routes.post(
   "/activate/police",
-  bruteforce.prevent,
+
   validateCheckAccount,
   checkPoliceAccountController.verifyAccount
 );
 
 routes.post(
   "/policestation/sendNewToken",
-  bruteforce.prevent,
+
   newToken,
   NewToken.sendTokenCheckAccountPoliceStation
 );
-routes.post("/user/sendNewToken", bruteforce.prevent, newToken, NewToken.sendTokenCheckAccount);
+routes.post("/user/sendNewToken", newToken, NewToken.sendTokenCheckAccount);
 
 routes.use(auth);
 
 routes.get("/users", UsuarioController.index);
 routes.get("/users/:id", UsuarioController.show);
-routes.put("/users/update", bruteforce.prevent, validateUpdateUser, UsuarioController.update);
-routes.delete("/users/delete/:id", bruteforce.prevent, UsuarioController.destroy);
+routes.put("/users/update", validateUpdateUser, UsuarioController.update);
+routes.delete("/users/delete/:id", UsuarioController.destroy);
 
 routes.get("/policestation", DelegaciaController.index);
 routes.get("/policestation/:id", DelegaciaController.show);
 routes.put(
   "/policestation/update",
-  bruteforce.prevent,
+
   validationUpdatePoliceStation,
   DelegaciaController.update
 );
-routes.delete("/policestation/delete/:id", bruteforce.prevent, DelegaciaController.destroy);
+routes.delete("/policestation/delete/:id", DelegaciaController.destroy);
 
 routes.get("/occurrence", OcorrenciaController.index);
 routes.get("/occurrence/:id", OcorrenciaController.show);
 routes.post(
   "/occurrence/create",
-  bruteforce.prevent, 
+ 
   validateCreateOccurence,
   OcorrenciaController.store
 );
 routes.put(
   "/occurrence/update",
-  bruteforce.prevent,
+
   validateUpdateOccurence,
   OcorrenciaController.update
 );
@@ -157,8 +157,8 @@ routes.get("/notifications", NotificacaoController.index);
 routes.get("/notifications/:id", NotificacaoController.show);
 
 routes.get("/categoria", CategoriaController.index);
-routes.post("/categoria", bruteforce.prevent, categoria, CategoriaController.store);
+routes.post("/categoria", categoria, CategoriaController.store);
 
-routes.post("/avaliation", bruteforce.prevent, validateCreateAvaliacao, AvaliacaoController.store);
+routes.post("/avaliation", validateCreateAvaliacao, AvaliacaoController.store);
 
 module.exports = routes;
