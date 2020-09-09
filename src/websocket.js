@@ -8,7 +8,7 @@ exports.setupWebsocket = (server) => {
   io.on("connection", (socket) => {
     const { id_delegacia } = socket.handshake.query;
 
-    console.log("Conectou mais um");
+    console.log("Conectou mais um " + id_delegacia);
     socket.emit("helcome", "Bem vindo");
 
     connections.push({
@@ -18,6 +18,8 @@ exports.setupWebsocket = (server) => {
 
     socket.on("disconnect", () => {
       connections = connections.filter((elemento) => elemento.id != socket.id);
+      console.log("Desconectou. Estado atual: ");
+      console.log(connections);
     });
   });
 };
@@ -33,3 +35,5 @@ exports.sendMessage = (to, message, data) => {
 
   io.to(id).emit(message, data);
 };
+
+
