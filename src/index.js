@@ -28,14 +28,14 @@ mongoose.connect(databaseUrl, {
 
 const oneSecondInMilliSeconds = 1000;
 const oneMinute = oneSecondInMilliSeconds * 60;
-const fiveMinutes = oneMinute * 5;
+const tenMinutes = oneMinute * 10;
 
 var limiter = new RateLimit({
   store: new MongoStore({
     uri: databaseUrl,
   }),
   max: 100,
-  windowMs: fiveMinutes
+  windowMs: tenMinutes
 });
 
 

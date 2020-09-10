@@ -63,6 +63,7 @@ routes.get("/", (req, res) => {
 routes.post("/sessions/user", bruteforce.prevent, sessionValidate, SessionUserController.store);
 routes.post(
   "/sessions/policestation",
+  bruteforce.prevent,
   sessionValidate,
   SessionControllerPoliceStation.store
 );
@@ -76,13 +77,11 @@ routes.post(
 
 routes.post(
   "/user/forgotPassword",
-
   forgotPassword,
   UserResetPasswordController.forgotPassword
 );
 routes.post(
   "/user/resetPassword",
- 
   resetPassword,
   UserResetPasswordController.resetPassword
 );
