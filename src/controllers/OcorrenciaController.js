@@ -13,8 +13,7 @@ module.exports = {
     const id = req.consumerId;
 
     let ocorrencias;
-
-    console.log("UA");
+    let categories = [];
 
     if (user) {
       let id_user = id;
@@ -31,10 +30,20 @@ module.exports = {
       for (let index = 0; index < categoriasModificadas.length; index++) {
         const categoria = categoriasModificadas[index];
         const quantidade = await Ocorrencia.find({ tipo: categoria });
-        res.setHeader(`x-count-${categoria}`, quantidade.length);
+        categories.push({
+          categoria,
+          quantidade
+        });
+        // res.setHeader(`x-count-${categoria}`, quantidade.length);
       }
 
       // console.log(quantidadeAssalto);
+
+      return res.status(200).json({
+        ocorrencias,
+        categories
+      });
+      
     } else {
       ocorrencias = await Ocorrencia.find();
     }
@@ -83,9 +92,6 @@ module.exports = {
     await NotificacaoController.store(ocorrencia);
 
     const sendSocket = filterConnection(id_delegacia);
-
-    console.log("O socket escolhido: " + sendSocket);
-    console.log(sendSocket);
 
     if (sendSocket) {
       sendMessage(sendSocket, "newOcurrence", ocorrencia);
