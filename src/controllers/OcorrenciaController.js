@@ -21,29 +21,6 @@ module.exports = {
     } else if (policestation) {
       let id_delegacia = id;
       ocorrencias = await Ocorrencia.find({ id_delegacia });
-
-      const categorias = await Categorias.find();
-      const categoriasModificadas = categorias.map(
-        (element) => element.categoria
-      );
-
-      for (let index = 0; index < categoriasModificadas.length; index++) {
-        const categoria = categoriasModificadas[index];
-        const quantidade = await Ocorrencia.find({ tipo: categoria });
-        categories.push({
-          categoria,
-          quantidade
-        });
-        // res.setHeader(`x-count-${categoria}`, quantidade.length);
-      }
-
-      // console.log(quantidadeAssalto);
-
-      return res.status(200).json({
-        ocorrencias,
-        categories
-      });
-      
     } else {
       ocorrencias = await Ocorrencia.find();
     }
