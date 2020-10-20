@@ -24,7 +24,7 @@ module.exports = {
       });
     }
 
-    const { id, name, firstLogin } = usuario;
+    const { id, name, firstLogin, cpf, birthday } = usuario;
 
     await usuario.updateOne({
       firstLogin: false,
@@ -34,6 +34,8 @@ module.exports = {
       usuario: {
         id,
         name,
+        cpf,
+        birthday,
         email,
         firstLogin,
       },
