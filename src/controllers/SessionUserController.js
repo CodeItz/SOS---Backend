@@ -8,7 +8,7 @@ module.exports = {
   async store(req, res) {
     const { email, password } = req.body;
 
-    const usuario = await Usuario.findOne({ email }).select("+accountChecked");
+    const usuario = await Usuario.findOne({ email }).select("+accountChecked cpf");
 
     if (!usuario) {
       return res.status(401).json({ error: "User not found" });
